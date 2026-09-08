@@ -1,0 +1,21 @@
+# data and weights (weights are published on GitHub Releases, see README)
+data/
+weights/*.h5
+checkpoints/
+runs/
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

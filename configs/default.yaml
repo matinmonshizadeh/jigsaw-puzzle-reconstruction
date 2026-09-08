@@ -1,0 +1,31 @@
+# Every hyper-parameter of the reported run. train.py and evaluate.py read this file;
+# the CLI flags --epochs / --batch-size / --seed override the corresponding entries.
+seed: 0
+
+data:
+  n_train: 80000        # STL-10 unlabeled split by index: [0, 80000) train, [80000, 90000) val, rest test
+  n_val: 10000
+  patch_size: 32        # grid cell size (fixed by the assignment)
+  crop_size: 28         # kept centre of each cell: a 2-pixel border is eroded on every side
+
+model:
+  base: 48              # RefineNet width: 48 / 96 / 192 channels, 3-level U-Net (2.72 M params)
+                        # OrderNet sizes are fixed in models.py: 128-d tokens, 3 attention blocks, 4 heads
+
+sinkhorn:
+  n_iters: 20           # alternating row / column log-softmax normalisations
+  tau_start: 1.0        # training temperature at epoch 1 ...
+  tau_end: 0.2          # ... annealed linearly to this value at epoch `anneal_epochs`, then held
+  anneal_epochs: 60
+  eval_tau: 0.01        # temperature for validation and test (near-hard assignment where confident)
+
+loss:
+  w_place: 1.0          # weight of the placement MAE (known pixels) relative to the reconstruction MAE
+
+train:
+  epochs: 60
+  batch_size: 64
+  learning_rate: 0.001  # Adam
+  monitor: val_recon    # quantity used by the LR schedule, early stopping and checkpointing
+  reduce_lr: {factor: 0.5, patience: 3}
+  early_stopping: {patience: 8}

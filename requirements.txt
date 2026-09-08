@@ -1,0 +1,7 @@
+# Exact versions used for the numbers in the README (CPU and Colab T4). Any TensorFlow >= 2.16 with Keras 3 should work.
+tensorflow==2.21.0
+keras==3.15.1
+numpy==2.4.6
+matplotlib==3.11.1
+pyyaml==6.0.3
+h5py==3.14.0
